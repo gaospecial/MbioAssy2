@@ -31,19 +31,10 @@ knitr::opts_chunk$set(
 The package includes example data in the `inst/extdata` directory. We first load the necessary data tables.
 
 ```{r load_data}
-library(MbioAssy)
-
-# Helper function to get example data path
-get_example_path <- function(file) {
-  system.file("extdata", file, package = "MbioAssy")
-}
-
-# Note: In a real installation, use system.file. 
-# For this vignette during development (if package not installed), we might need to point to local files.
-# But assuming the package structure is correct, we can simulate loading.
+library(MbioAssy2)
 
 # Let's assume we are running this where we can access the files.
-data_dir <- system.file("extdata", package = "MbioAssy")
+data_dir <- system.file("extdata", package = "MbioAssy2")
 
 # Load OTU table
 otu_file <- file.path(data_dir, "OTU.txt")
