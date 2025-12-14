@@ -1,10 +1,10 @@
 ---
-title: "Integrated Analysis of Microbial Community Assembly with MbioAssy"
+title: "Integrated Analysis of Microbial Community Assembly with MbioAssy 2.0"
 author: "Ling Yuan, Ze Zhao, Feng Ju"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Integrated Analysis of Microbial Community Assembly with MbioAssy}
+  %\VignetteIndexEntry{Integrated Analysis of Microbial Community Assembly with MbioAssy 2.0}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -101,6 +101,9 @@ print(nm_out$fitstats)
 iCAMP quantifies relative importance of ecological processes (Selection, Dispersal, Drift) at the bin level.
 
 ```{r icamp_analysis}
+#| message: false
+
+
 # Create a temporary directory for outputs
 icamp_out_dir <- tempfile()
 dir.create(icamp_out_dir)
@@ -127,7 +130,7 @@ print(icamp_res$icbin$Pt)
 
 C-score variance assesses co-occurrence patterns (aggregation vs. segregation).
 
-```{r cscore_analysis
+```{r cscore_analysis}
 # Run C-score analysis (nReps reduced for speed)
 cscore_model <- run_cscore_var(
   comm = otu_table,
