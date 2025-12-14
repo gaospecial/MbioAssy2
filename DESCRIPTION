@@ -1,0 +1,41 @@
+Package: MbioAssy
+Title: Integrated Analysis of Microbial Community Assembly
+Version: 2.0.0
+Authors@R: c(
+    person("Ling", "Yuan", email = "yuanling@westlake.edu.cn", role = c("aut", "cre")),
+    person("Ze", "Zhao", email = "zhaoze@westlake.edu.cn", role = "aut"),
+    person("Feng", "Ju", email = "jufeng@westlake.edu.cn", role = "aut")
+  )
+Description: Provides an integrated pipeline for assessing ecological stochasticity 
+    and determinism in microbial community assembly. It includes modules for 
+    Normalized Stochasticity Ratio (NST) calculation, Neutral Model analysis, 
+    iCAMP null model analysis, C-score variance analysis, and Co-occurrence 
+    Network construction.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.3
+Imports: 
+    NST,
+    iCAMP,
+    ape,
+    minpack.lm,
+    Hmisc,
+    stats4,
+    ggplot2,
+    EcoSimR,
+    devEMF,
+    vegan,
+    igraph,
+    RMThreshold,
+    graphics,
+    grDevices,
+    stats,
+    utils,
+    rlang
+Suggests: 
+    knitr,
+    rmarkdown,
+    devtools,
+    roxygen2
+VignetteBuilder: knitr
