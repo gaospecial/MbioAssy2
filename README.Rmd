@@ -1,0 +1,153 @@
+# MbioAssy2: Integrated Analysis of Microbial Community Assembly
+
+## Overview
+
+**MbioAssy2** provides an integrated pipeline for assessing ecological stochasticity and determinism in microbial community assembly. It includes modules for:
+
+- **Normalized Stochasticity Ratio (NST)** calculation
+- **Neutral Model** analysis
+- **iCAMP** (infer Community Assembly Mechanisms by Phylogenetic-bin-based null model) analysis
+- **C-score variance** analysis
+- **Co-occurrence Network** construction and topology analysis
+
+## Installation
+
+You can install the development version of MbioAssy2 from GitHub with:
+
+```{r}
+# install.packages("devtools")
+devtools::install_github("gaospecial/MbioAssy2")
+```
+
+## Usage
+
+Here is a brief example of how to use the main functions of MbioAssy2. For more details, please refer to the [vignette](https://gaospecial.github.io/MbioAssy2/articles/MbioAssy_vignette.html).
+
+### Loading Data
+
+MbioAssy2 comes with example data (OTU table, grouping, tree, environment, taxonomy).
+
+```{r}
+library(MbioAssy2)
+
+# Load example data paths
+data_dir <- system.file("extdata", package = "MbioAssy2")
+otu_file <- file.path(data_dir, "OTU.txt")
+group_file <- file.path(data_dir, "Group.txt")
+tree_file <- file.path(data_dir, "Tree.nwk")
+env_file <- file.path(data_dir, "Env.txt")
+tax_file <- file.path(data_dir, "Taxonomy.txt")
+
+# Read data
+otu_table <- t(read.table(otu_file, sep = "	", header = TRUE, row.names = 1))
+# Filter empty rows/cols
+otu_table <- otu_table[which(rowSums(otu_table) > 0), ]
+otu_table <- otu_table[, which(colSums(otu_table) > 0)]
+
+group_table <- read.table(group_file, sep = "	", header = TRUE, row.names = 1)
+env_table <- read.table(env_file, sep = "	", header = TRUE, row.names = 1)
+tax_table <- read.table(tax_file, sep = "	", header = TRUE, row.names = 1)
+
+if (requireNamespace("ape", quietly = TRUE)) {
+  tree <- ape::read.tree(tree_file)
+}
+```
+
+### 1. Normalized Stochasticity Ratio (NST) Analysis
+
+NST quantifies stochasticity in community assembly. NST > 0.5 indicates stochasticity dominance; NST < 0.5 indicates determinism dominance.
+
+```{r}
+# Run NST (rand=20 for speed in example, normally 1000)
+nst_res <- run_nst(
+  comm = otu_table, 
+  group = group_table, 
+  rand = 20, 
+  output_file = NULL
+)
+head(nst_res)
+```
+
+### 2. Neutral Model Analysis
+
+This module fits the Sloan neutral community model.
+
+```{r}
+# Fit neutral model
+nm_out <- fit_sncm(spp = otu_table)
+
+# Plot results
+plot_sncm_fit(nm_out, title = "Neutral Model Fit")
+
+# Inspect fit statistics
+print(nm_out$fitstats)
+```
+
+### 3. iCAMP Analysis
+
+iCAMP quantifies relative importance of ecological processes (Selection, Dispersal, Drift) at the bin level.
+
+```{r}
+# Run iCAMP (parameters reduced for speed)
+# Note: This step can be time-consuming
+icamp_res <- run_icamp(
+  comm = otu_table,
+  tree = tree,
+  treat = group_table,
+  env = env_table,
+  clas = tax_table,
+  prefix = "Example",
+  save_dir = tempdir(), # Or your specific directory
+  rand = 20,          # 1000 recommended
+  nworker = 2,        # Adjust based on CPU
+  bin_size_limit = 12 # Adjusted for small dataset
+)
+
+# View process importance for each group
+print(icamp_res$icbin$Pt)
+```
+
+### 4. C-score Variance Analysis
+
+C-score variance assesses co-occurrence patterns (aggregation vs. segregation).
+
+```{r}
+# Run C-score analysis
+cscore_model <- run_cscore_var(
+  comm = otu_table,
+  nReps = 100,
+  save_plot = FALSE
+)
+
+summary(cscore_model)
+```
+
+### 5. Co-occurrence Network Analysis
+
+Constructs and analyzes microbial interaction networks.
+
+```{r}
+# Construct network
+net_res <- construct_network(
+  comm = otu_table,
+  cor_cutoff = 0.6,
+  p_cutoff = 0.05,
+  use_rmt = FALSE
+)
+
+# Calculate topology
+topo_res <- calculate_topology(net_res$graph)
+
+# Global topology
+print(topo_res$global)
+```
+
+## Authors
+
+- **Ling Yuan** (yuanling@westlake.edu.cn)
+- **Ze Zhao** (zhaoze@westlake.edu.cn)
+- **Feng Ju** (jufeng@westlake.edu.cn)
+
+## License
+
+This project is licensed under the GPL-3 License.

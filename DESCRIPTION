@@ -11,6 +11,7 @@ Description: Provides an integrated pipeline for assessing ecological stochastic
     Normalized Stochasticity Ratio (NST) calculation, Neutral Model analysis, 
     iCAMP null model analysis, C-score variance analysis, and Co-occurrence 
     Network construction.
+URL: https://gaospecial.github.io/MbioAssy2
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
