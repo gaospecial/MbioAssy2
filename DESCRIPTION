@@ -2,10 +2,11 @@ Package: MbioAssy2
 Title: Integrated Analysis of Microbial Community Assembly
 Version: 2.0.0
 Authors@R: c(
-    person("Ling", "Yuan", email = "yuanling@westlake.edu.cn", role = c("aut", "cre")),
+    person("Ling", "Yuan", email = "yuanling@westlake.edu.cn", role = "aut"),
     person("Ze", "Zhao", email = "zhaoze@westlake.edu.cn", role = "aut"),
-    person("Feng", "Ju", email = "jufeng@westlake.edu.cn", role = "aut")
+    person("Feng", "Ju", email = "jufeng@westlake.edu.cn", role = c("aut", "cre"))
   )
+Maintainer: Ze Zhao <zhaoze@westlake.edu.cn>
 Description: Provides an integrated pipeline for assessing ecological stochasticity 
     and determinism in microbial community assembly. It includes modules for 
     Normalized Stochasticity Ratio (NST) calculation, Neutral Model analysis, 
@@ -34,6 +35,8 @@ Imports:
     stats,
     utils,
     rlang
+Remotes:
+    github::GotelliLab/EcoSimR
 Suggests: 
     knitr,
     rmarkdown,
