@@ -1,4 +1,23 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
 # MbioAssy2: Integrated Analysis of Microbial Community Assembly
+
+
+<!-- badges: start -->
+<!-- badges: end -->
 
 ## Overview
 
@@ -62,7 +81,7 @@ NST quantifies stochasticity in community assembly. NST > 0.5 indicates stochast
 nst_res <- run_nst(
   comm = otu_table, 
   group = group_table, 
-  rand = 20, 
+  rand = 1, 
   output_file = NULL
 )
 head(nst_res)
@@ -98,7 +117,7 @@ icamp_res <- run_icamp(
   clas = tax_table,
   prefix = "Example",
   save_dir = tempdir(), # Or your specific directory
-  rand = 20,          # 1000 recommended
+  rand = 1,          # 1000 recommended
   nworker = 2,        # Adjust based on CPU
   bin_size_limit = 12 # Adjusted for small dataset
 )
